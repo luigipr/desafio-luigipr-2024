@@ -1,32 +1,25 @@
+import {db} from "../db/database.connection.js"
+
 export async function dbAnimals() {
-   try{
-    const animals = await db.query(`SELECT * FROM ANIMAIS`)
+    const animals = await db.query(`SELECT * FROM "ANIMAIS"`)
+    // const allAnimals = animals.rows.map( animal => {
+    //     console.log(animal)
+    //     return  {id, especie, tamanho, bioma, carnivoro};
+    // });
 
-    const allAnimals = animals.rows.map( animal => {
-        return  {id, especie, tamanho, bioma, carnivoro};
-    });
-
-    res.send(allAnimals)
-
-    } catch (err) {
-        res.status(500).send(err.message);
-    }
+    return animals.rows
 
 }
 
 
 export async function dbBiomes() {
-    try{
-     const biomes = await db.query(`SELECT * FROM ANIMALS`)
+
+     const biomes = await db.query(`SELECT * FROM "RECINTOS_EXISTENTES"`)
  
-     const allBiomes = biomes.rows.map( biome => {
-         return  {id, bioma, tamanho, tamanho_total, animais_existentes};
-     });
+    //  const allBiomes = biomes.rows.map( biome => {
+    //      return  {id, bioma, tamanho, tamanho_total, animais_existentes, numero};
+    //  });
  
-     res.send(allBiomes)
- 
-     } catch (err) {
-         res.status(500).send(err.message);
-     }
+     return biomes.rows
  
  }
