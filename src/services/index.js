@@ -5,16 +5,18 @@ export async function analizeBiome(animal, quantidade) {
     const animais = await dbAnimals()
     const recintos = await dbBiomes()
 
-    function findAnimal(especie) {
-        return animais.find(animal => animal.especie === especie);
+    function findAnimal(especie) {  
+      return animais.find(animal => animal.especie === especie);
       }
 
 
     function calculateRequiredSpace(recinto, animal, quantidade) {
         const existingSpace = recinto.animais_existentes.reduce((total, animal) => {
-          const animalData = findAnimal(animal);
-          console.log(animalData, "string")
-          return total + (animalData ? animalData.tamanho_total * animal.quantidade : 0);
+          console.log(animal, 'aqui')
+
+          const animalData = findAnimal('MACACO');
+          console.log(animalData)
+          return total + (animalData ? animalData.tamanho_total * quantidade : 0);
         }, 0);
 
         console.log(existingSpace)
@@ -26,6 +28,7 @@ export async function analizeBiome(animal, quantidade) {
 
 
     function hasEnoughSpace(recinto, animal, quantidade) {
+        console.log(animal, 'aqui2')
         const requiredSpace = calculateRequiredSpace(recinto, animal, quantidade);
         return requiredSpace <= recinto.tamanho_total;
       }
@@ -80,8 +83,8 @@ export async function analizeBiome(animal, quantidade) {
 
   function canAddAnimalToRecinto(recinto, newAnimal, quantidade) {
   
-    console.log('passei aqui2')
-    console.log(newAnimal, "string3")
+    console.log('passei aqui2', newAnimal)
+    
     // Valida cada regra
     const biomaSuitable = isBiomaSuitable(recinto, newAnimal);
     const enoughSpace = hasEnoughSpace(recinto, newAnimal, quantidade);
@@ -99,14 +102,14 @@ export async function analizeBiome(animal, quantidade) {
     if (!novoAnimal) {
       return { erro: "Animal inválido" };
     }
-    console.log(novoAnimal, especie)
+    
     if (typeof quantidade !== 'number' || quantidade <= 0) {
       return { erro: "Quantidade inválida" };
     }
     console.log('passei aqui1')
     // Encontrar recintos viáveis
     const recintosViaveis = recintos.filter(recinto => canAddAnimalToRecinto(recinto, novoAnimal, quantidade));
-    console.log(recintosViaveis)
+    
   //erro aqui
 
     // Verificar se há recintos viáveis
@@ -114,7 +117,7 @@ export async function analizeBiome(animal, quantidade) {
       return { erro: "Não há recinto viável" };
     }
     
-    console.log('passei aqui 3')
+    console.log('passei aqui 3', novoAnimal)
     // Ordenar recintos viáveis pelo número do recinto
     recintosViaveis.sort((a, b) => a.numero - b.numero);
   

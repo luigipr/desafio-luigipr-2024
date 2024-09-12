@@ -4,4 +4,4 @@ const add = new RecintosZoo('MACACO', 2)
 
 const result = await add.analisaRecintos()
 
-console.log(result)
+//console.log(result)
